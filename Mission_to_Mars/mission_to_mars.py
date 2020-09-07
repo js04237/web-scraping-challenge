@@ -22,8 +22,8 @@ def scrape_data():
 
     # Get the latest article title and description
     for article in latest:
-        title = {"id": "latest_article_title", "title": latest.find('h3').text}
-        text = {"id": "latest_article_text", "text": latest.find('div', class_='article_teaser_body').text}
+        title = {"latest_article_title" : latest.find('h3').text}
+        text = {"latest_article_text" : latest.find('div', class_='article_teaser_body').text}
 
     # Scrape the NASA Jet Propulation Lab website to get the latest featured image
     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -43,7 +43,7 @@ def scrape_data():
 
     # Find the featured image url from the soup
     image = soup.find('a', class_='fancybox')["data-fancybox-href"]
-    featured_image_url = {"id": "featured_image_url", "url": "https://www.jpl.nasa.gov" + image}
+    featured_image_url = {"featured_image_url" : "https://www.jpl.nasa.gov" + image}
 
     # Scrape the Mars page of the Space Facts website
     url = 'https://space-facts.com/mars/'

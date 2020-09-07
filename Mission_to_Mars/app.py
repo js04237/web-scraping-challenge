@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect
-# from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo
 import mission_to_mars
 import pymongo
 
@@ -17,10 +17,10 @@ collection = db.scraped_data
 def home():
 
     # Find one record of data from the mongo database
-    destination_data = collection.find_one()
+    destination_data = collection.find({}, {"_id": 0})# "latest_article_title": 1})
 
     # Return template and data
-    return render_template("index.html", vacation=destination_data)
+    return render_template("index.html", mars_db=destination_data)
 
 
 # Route that will trigger the scrape function
@@ -36,7 +36,7 @@ def scrape():
     # Update the Mongo database using update and upsert=True
     for data in mars_data:
         collection.insert_one(data)
-        
+
     # Redirect back to home page
     return redirect("/")
 
