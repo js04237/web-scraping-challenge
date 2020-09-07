@@ -96,7 +96,7 @@ def scrape_data():
         html = browser.html
         soup = BeautifulSoup(html, 'html.parser')
         hemisphere_image_urls.append({'title': soup.find('h2', class_="title").text[:-9],
-                                    'img_url': soup.find(text='Original').parent['href']})
+                                    'img_url': soup.find(text='Sample').parent['href']})
 
     hemisphere_dict = {"hemispheres": hemisphere_image_urls}
 
