@@ -3,6 +3,7 @@ from splinter import Browser
 from bs4 import BeautifulSoup
 import pandas as pd
 import requests
+import json
 
 # Chrome webdriver setup
 def init_browser():
@@ -93,6 +94,7 @@ def scrape_data():
 
     for url in url_list:
         browser.visit(url)
+
         html = browser.html
         soup = BeautifulSoup(html, 'html.parser')
         hemisphere_image_urls.append({'title': soup.find('h2', class_="title").text[:-9],
@@ -103,7 +105,11 @@ def scrape_data():
     # Close the browser after scraping
     browser.quit()
 
-    scraped_data = [title, text, featured_image_url, hemisphere_dict]
+    # Testing
+    df_to_table = []
+    df_to_table = json.loads(mars_df.T.to_json())
+
+    scraped_data = [title, text, featured_image_url, hemisphere_dict, df_to_table]
 
     # Return results
     return scraped_data
