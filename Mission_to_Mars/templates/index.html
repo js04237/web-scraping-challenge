@@ -19,11 +19,26 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <h2>Latest Mars News:</h2>
-        &nbsp;
-        <h3> {{ mars_db[0].latest_article_title }} </h3>
-        <h5> {{ mars_db[1].latest_article_text }} </h5>
+      <div class="col-md-8">
+        <div class="card">
+          <h2 class="card-header"><center>Latest Mars News:</center></h2>
+          &nbsp;
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <h3> {{ mars_db[0].latest_article_title }} </h3> 
+              <p> {{ mars_db[1].latest_article_text }} </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <h2 class="card-header">Today's Weather (°F):</h2>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"> <b>High:</b> {{ mars_db[5].high }} </li>
+            <li class="list-group-item"> <b>Low:</b> {{ mars_db[6].low }} </li>
+          </ul>
+        </div>
       </div>
     </div>
     &nbsp;

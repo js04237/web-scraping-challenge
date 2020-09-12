@@ -26,6 +26,15 @@ def scrape_data():
         title = {"latest_article_title" : latest.find('h3').text}
         text = {"latest_article_text" : latest.find('div', class_='article_teaser_body').text}
 
+    # Scrape the NASA Mars Weather
+     
+    url = 'https://mars.nasa.gov/'
+    browser.visit(url)
+    html = browser.html
+    soup = BeautifulSoup(html, 'html.parser')
+    hightemp = {"high": (soup.find_all("div", {"class":"col high"})[0]).find('div', {'class': 'val'}).text.strip('\n')}
+    lowtemp = {"low": (soup.find_all("div", {"class":"col low"})[0]).find('div', {'class': 'val'}).text.strip('\n')}
+
     # Scrape the NASA Jet Propulation Lab website to get the latest featured image
     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(url)
@@ -61,14 +70,8 @@ def scrape_data():
     # Put Mars facts into its own table
     mars_df = tables[0]
 
-    # Transform the table into a dataframe
-    mars_fact_table = mars_df.to_html('mars_facts.html', header=False, index=False)
-
     # Put the Mars / Earth comparison data into its own table
     mars_earth_df = tables[1]
-
-    # Transform the table into a dataframe
-    mars_earth_table = mars_earth_df.to_html('mars_earth_facts.html', index=False)
 
     # Scrape the website for high res images of each hemisphere
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
@@ -105,11 +108,12 @@ def scrape_data():
     # Close the browser after scraping
     browser.quit()
 
-    # Testing
+    # Change the mars fact table from a a dataframe format to a json format so it can be laoded into mongo
     df_to_table = []
     df_to_table = json.loads(mars_df.T.to_json())
 
-    scraped_data = [title, text, featured_image_url, hemisphere_dict, df_to_table]
+    # Load the data into mongo
+    scraped_data = [title, text, featured_image_url, hemisphere_dict, df_to_table, hightemp, lowtemp]
 
     # Return results
     return scraped_data
